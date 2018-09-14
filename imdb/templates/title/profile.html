@@ -1,0 +1,23 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>{{ profile.title }} IMDb</title>
+    </head>
+
+    <body>
+        <div>
+            <h2><a href="/"> Home </a></h2>
+            <h1> {{ profile.title }} </h1>
+            <ol>
+            {% for actor in profile.cast %}
+                {# <li><a href="/name/{{ actor.id }}">{{ actor.name }}</a> #}
+                <li>{{ actor.name }}</li>
+            {% endfor %}
+            </ol>
+            <a href="/title/{{ profile.id }}/edit"> Edit Info </a>
+        </div>
+    </body>
+</html>

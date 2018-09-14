@@ -1,0 +1,22 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>{{ profile.name }} IMDb</title>
+    </head>
+
+    <body>
+        <div>
+            <h2><a href="/"> Home </a></h2>
+            <h1> {{ profile.name }} </h1>
+            <ol>
+            {% for tvShow in profile.filmography %}
+                <li><a href="/title/{{ tvShow.id }}">{{ tvShow.title }}</a>
+            {% endfor %}
+            </ol>
+            <a href="/title/{{ profile.id }}/edit"> Edit Info </a>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>IMDb</title>
+    </head>
+
+    <body>
+        <div>
+            <h2><a href="/"> Home </a></h2>
+            <h1> TV Shows </h1>
+            <ol>
+            {% for show in data.tvShows %}
+                <li><a href="/title/{{ show.id }}">{{ show.title }}</a>
+            {% endfor %}
+            </ol>
+            <a href="/title/create"> + Add TV Show </a>
+
+            {# <h1> Actors/Actresses </h1>
+            <ol>
+            {% for actor in data.actors %}
+                <li><a href="/name/{{ actor.id }}">{{ actor.name }}</a>
+            {% endfor %}
+            </ol>
+            <a href="/name/create"> + Add Actor/Actress </a> #}
+        </div>
+    </body>
+</html>
