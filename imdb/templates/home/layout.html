@@ -4,14 +4,13 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Error - IMDb</title>
+        <title>{% block title %} - IMDb v2{% endblock %}</title>
     </head>
 
     <body>
         <div>
             <h2><a href="/"> Home </a></h2>
-            <h1> Uh oh! Something went wrong. </h1>
-            <p> E.T. <a href="/">go home.</a> </p>
+            {% block content %}{% endblock %}
         </div>
     </body>
 </html>

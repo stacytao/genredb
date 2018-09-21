@@ -1,23 +1,14 @@
-<!doctype html>
+{% extends "profile.html" %}
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
+{% block identifier %}{{ profile.title }}{% endblock %}
 
-        <title>{{ profile.title }} IMDb</title>
-    </head>
+{% block collection_type %}Cast{% endblock %}
+{% block collection %}
+    {% for actor in profile.cast %}
+        <li><a href="/name/{{ actor.name_id }}">{{ actor.name }}</a>
+    {% endfor %}
+{% endblock %}
 
-    <body>
-        <div>
-            <h2><a href="/"> Home </a></h2>
-            <h1> {{ profile.title }} </h1>
-            <ol>
-            {% for actor in profile.cast %}
-                {# <li><a href="/name/{{ actor.id }}">{{ actor.name }}</a> #}
-                <li>{{ actor.name }}</li>
-            {% endfor %}
-            </ol>
-            <a href="/title/{{ profile.id }}/edit"> Edit Info </a>
-        </div>
-    </body>
-</html>
+{% block edit_profile %}
+    <a href="/title/{{ profile.title_id }}/edit"> Edit Info </a>
+{% endblock %}

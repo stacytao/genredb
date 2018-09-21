@@ -1,0 +1,16 @@
+{% extends "profile-form.html" %}
+
+{% block profile_action %}Create{% endblock %}
+{% block profile_type %}Actor/Actress{% endblock %}
+    
+{% block form_content %}
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" required>
+    <br>
+    <label for="filmography">Filmography</label>
+    <textarea name="filmography" id="filmography" rows="5" columns="50" required></textarea>
+{% endblock %}
+
+{% block submit %}
+    <input type="submit" value="Create">
+{% endblock %}

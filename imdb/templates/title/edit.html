@@ -1,29 +1,21 @@
-<!doctype html>
+{% extends "profile-form.html" %}
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
+{% block profile_action %}Edit{% endblock %}
+{% block profile_name %}{{ profile.title }}{% endblock %}
+{% block profile_type %}TV Show{% endblock %}
+    
+{% block form_content %}
+    <label for="title">Title</label>
+    <input type="text" name="title" value="{{ profile.title }}" id="title" required>
+    <br>
+    <label for="cast">Cast</label>
+    <textarea name="cast" id="cast" rows="5" columns="50" required>{{ cast }}</textarea>
+{% endblock %}
 
-        <title>IMDb</title>
-    </head>
+{% block submit %}
+    <input type="submit" value="Save">
+{% endblock %}
 
-    <body>
-        <div>
-            <h2><a href="/"> Home </a></h2>
-            <h1> Edit {{ profile.title }} TV Show Profile </h1>
-            
-            <form method="post">
-                <label for="title">Title</label>
-                <input type="text" name="title" value="{{ profile.title }}" id="title" required>
-                <br>
-                <label for="cast">Cast</label>
-                <textarea name="cast" id="cast" rows="5" columns="50" required>{{ profile.cast }}</textarea>
-
-                <input type="submit" value="Save">
-            </form>
-
-            <a href="/title/{{ profile.id }}/delete">Delete Profile </a>
-
-        </div>
-    </body>
-</html>
+{% block delete_profile %}
+    <a href="/title/{{ profile.title_id }}/delete">Delete Profile </a>
+{% endblock %}

@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask
+from .model import db
+from .views import bp
 
 
 def create_app(test_config=None):
@@ -24,7 +26,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from . import views
-    app.register_blueprint(views.bp)
+    app.register_blueprint(bp)
+    db.init_app(app)
 
     return app

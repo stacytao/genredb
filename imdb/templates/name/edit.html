@@ -1,0 +1,21 @@
+{% extends "profile-form.html" %}
+
+{% block profile_action %}Edit{% endblock %}
+{% block profile_name %}{{ profile.title }}{% endblock %}
+{% block profile_type %}Actor/Actress{% endblock %}
+    
+{% block form_content %}
+    <label for="name">Name</label>
+    <input type="text" name="name" value="{{ profile.name }}" id="name" required>
+    <br>
+    <label for="filmography">Filmography</label>
+    <textarea name="filmography" id="filmography" rows="5" columns="50" required>{{ filmography }}</textarea>
+{% endblock %}
+
+{% block submit %}
+    <input type="submit" value="Save">
+{% endblock %}
+
+{% block delete_profile %}
+    <a href="/name/{{ profile.name_id }}/delete">Delete Profile </a>
+{% endblock %}

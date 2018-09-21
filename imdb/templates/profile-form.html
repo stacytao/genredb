@@ -1,0 +1,15 @@
+{% extends "home/layout.html" %}
+
+{% block title %}Create Profile{{super()}}{% endblock %}
+
+{% block content %}
+    <h1> {% block profile_action %}{% endblock %} {% block profile_name %}{% endblock %} {% block profile_type %}{% endblock %} Profile </h1>
+    
+    <form method="post">
+        {% block form_content %}{% endblock %}
+
+        {% block submit %}{% endblock %}
+    </form>
+
+    {% block delete_profile %}{% endblock %}
+{% endblock %}

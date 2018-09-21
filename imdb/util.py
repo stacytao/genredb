@@ -1,60 +1,79 @@
-import json
-
-db_file = "db.json"
-
-profile_types = {
-    "tvShows": {
-        "identifier": "title",
-        "collection": "cast"
-    },
-    "actors": {
-        "identifier": "name",
-        "collection": "filmography"
-    }
-}
+from .model import *
 
 
-def save_to_db(profile_type, item_id, identifier, collection):
-    db = read_db()
-    if int(item_id) > (len(db["tvShows"]) + len(db["actors"])):
-        db[profile_type].append({
-            "id": item_id,
-            get_identifier(profile_type): identifier,
-            get_collection(profile_type): collection
-        })
-    else:
-        for p in db[profile_type]:
-            if p["id"] == item_id:
-                p[get_identifier(profile_type)] = identifier
-                p[get_collection(profile_type)] = collection
-                break
-    write_db(db)
+###########
+# TV SHOW #
+###########
+def add_to_tv_show_table(item_title, item_cast):
+    tv_show = TvShow(title=item_title)
+    db.session.add(tv_show)
+    for actor_name in item_cast:
+        actor = Actor.query.filter_by(name=actor_name).first()
+        if actor is None:
+            actor = Actor(name=actor_name)
+            db.session.add(actor)
+        tv_show.cast.append(actor)
+    db.session.commit()
+    return tv_show.title_id
 
 
-def remove_from_db(profile_type, item_id):
-    db = read_db()
-    for p in db[profile_type]:
-        if p["id"] == item_id:
-            db[profile_type].remove(p)
-            write_db(db)
-            return True
-    return False
+def save_to_tv_show_table(item_id, item_title, item_cast):
+    tv_show = TvShow.query.filter_by(title_id=item_id).first()
+    tv_show.title = item_title
+    for actor_name in item_cast:
+        actor = Actor.query.filter_by(name=actor_name).first()
+        if actor is None:
+            actor = Actor(name=actor_name)
+            db.session.add(actor)
+            tv_show.cast.append(actor)
+        elif actor not in tv_show.cast:
+            tv_show.cast.append(actor)
+    for actor in tv_show.cast:
+        if actor.name not in item_cast:
+            tv_show.cast.remove(actor)
+    db.session.commit()
 
 
-def read_db():
-    with open(db_file) as json_file:
-        db = json.load(json_file)
-        return db
+def remove_from_tv_show_table(item_id):
+    tv_show = TvShow.query.filter_by(title_id=item_id).first_or_404()
+    db.session.delete(tv_show)
+    db.session.commit()
 
 
-def write_db(db):
-    with open(db_file, "w") as outfile:
-        json.dump(db, outfile, indent=4)
+#########
+# ACTOR #
+#########
+def add_to_actor_table(item_name, item_filmography):
+    actor = Actor(name=item_name)
+    db.session.add(actor)
+    for tv_show_title in item_filmography:
+        tv_show = TvShow.query.filter_by(title=tv_show_title).first()
+        if tv_show is None:
+            tv_show = TvShow(title=tv_show_title)
+            db.session.add(tv_show)
+        actor.filmography.append(tv_show)
+    db.session.commit()
+    return actor.name_id
 
 
-def get_identifier(profile_type):
-    return profile_types[profile_type]["identifier"]
+def save_to_actor_table(item_id, item_name, item_filmography):
+    actor = Actor.query.filter_by(name_id=item_id).first()
+    actor.name = item_name
+    for tv_show_title in item_filmography:
+        tv_show = TvShow.query.filter_by(title=tv_show_title).first()
+        if tv_show is None:
+            tv_show = TvShow(title=tv_show_title)
+            db.session.add(tv_show)
+            actor.filmography.append(tv_show)
+        elif tv_show not in actor.filmography:
+            actor.filmography.append(tv_show)
+    for tv_show in actor.filmography:
+        if tv_show.title not in item_filmography:
+            actor.filmography.remove(tv_show)
+    db.session.commit()
 
 
-def get_collection(profile_type):
-    return profile_types[profile_type]["collection"]
+def remove_from_actor_table(item_id):
+    actor = Actor.query.filter_by(name_id=item_id).first_or_404()
+    db.session.delete(actor)
+    db.session.commit()
