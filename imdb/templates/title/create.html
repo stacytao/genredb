@@ -5,12 +5,21 @@
     
 {% block form_content %}
     <label for="title">Title</label>
-    <input type="text" name="title" id="title" required>
+    <input type="text" class="form-control" name="title" id="title" required>
+    
     <br>
+    
     <label for="cast">Cast</label>
-    <textarea name="cast" id="cast" rows="5" columns="50" required></textarea>
+    <small id="inputHelp" class="form-text text-muted">Please separate multiple values with commas.</small>
+    <textarea name="cast" class="form-control" id="cast" rows="5" columns="50" required></textarea>
+    
+    <br>
+    
+    <label for="cast">Genres</label>
+    <small id="inputHelp" class="form-text text-muted">Please separate multiple values with commas.</small>
+    <textarea name="genres" class="form-control" id="genres" rows="5" columns="50" required></textarea>
 {% endblock %}
 
 {% block submit %}
-    <input type="submit" value="Create">
+    <input type="submit" value="Create" class="btn btn-primary">
 {% endblock %}

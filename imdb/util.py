@@ -4,7 +4,7 @@ from .model import *
 ###########
 # TV SHOW #
 ###########
-def add_to_tv_show_table(item_title, item_cast):
+def add_to_tv_show_table(item_title, item_cast, item_genres):
     tv_show = TvShow(title=item_title)
     db.session.add(tv_show)
     for actor_name in item_cast:
@@ -13,11 +13,17 @@ def add_to_tv_show_table(item_title, item_cast):
             actor = Actor(name=actor_name)
             db.session.add(actor)
         tv_show.cast.append(actor)
+    for genre_name in item_genres:
+        genre = Genre.query.filter_by(genre_name=genre_name).first()
+        if genre is None:
+            genre = Genre(genre_name=genre_name)
+            db.session.add(genre)
+        tv_show.genres.append(genre)
     db.session.commit()
     return tv_show.title_id
 
 
-def save_to_tv_show_table(item_id, item_title, item_cast):
+def save_to_tv_show_table(item_id, item_title, item_cast, item_genres):
     tv_show = TvShow.query.filter_by(title_id=item_id).first()
     tv_show.title = item_title
     for actor_name in item_cast:
@@ -31,6 +37,17 @@ def save_to_tv_show_table(item_id, item_title, item_cast):
     for actor in tv_show.cast:
         if actor.name not in item_cast:
             tv_show.cast.remove(actor)
+    for genre_name in item_genres:
+        genre = Genre.query.filter_by(genre_name=genre_name).first()
+        if genre is None:
+            genre = Genre(name=genre_name)
+            db.session.add(genre)
+            tv_show.genres.append(genre)
+        elif genre not in tv_show.genres:
+            tv_show.genres.append(genre)
+    for genre in tv_show.genres:
+        if genre.genre_name not in item_genres:
+            tv_show.genres.remove(genre)
     db.session.commit()
 
 

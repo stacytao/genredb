@@ -3,19 +3,28 @@
 {% block profile_action %}Edit{% endblock %}
 {% block profile_name %}{{ profile.title }}{% endblock %}
 {% block profile_type %}TV Show{% endblock %}
+
+{% block delete_profile %}
+    <a href="/title/{{ profile.title_id }}/delete" class="btn btn-outline-danger profile-delete">Delete Profile </a>
+{% endblock %}
     
 {% block form_content %}
     <label for="title">Title</label>
-    <input type="text" name="title" value="{{ profile.title }}" id="title" required>
+    <input type="text" class="form-control" name="title" value="{{ profile.title }}" id="title" required>
+
     <br>
+
     <label for="cast">Cast</label>
-    <textarea name="cast" id="cast" rows="5" columns="50" required>{{ cast }}</textarea>
+    <small id="inputHelp" class="form-text text-muted">Please separate multiple values with commas.</small>
+    <textarea name="cast" class="form-control" id="cast" rows="5" columns="50" required>{{ cast }}</textarea>
+
+    <br>
+
+    <label for="cast">Genres</label>
+    <small id="inputHelp" class="form-text text-muted">Please separate multiple values with commas.</small>
+    <textarea name="genres" class="form-control" id="genres" rows="5" columns="50" required>{{ genres }}</textarea>
 {% endblock %}
 
 {% block submit %}
-    <input type="submit" value="Save">
-{% endblock %}
-
-{% block delete_profile %}
-    <a href="/title/{{ profile.title_id }}/delete">Delete Profile </a>
+    <input type="submit" value="Save" class="btn btn-primary">
 {% endblock %}

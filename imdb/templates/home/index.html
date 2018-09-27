@@ -3,19 +3,27 @@
 {% block title %}Home{{super()}}{% endblock %}
 
 {% block content %}
-    <h1> TV Shows </h1>
-    <ol>
-    {% for tv_show in tv_shows %}
-        <li><a href="/title/{{ tv_show.title_id }}">{{ tv_show.title }}</a>
-    {% endfor %}
-    </ol>
-    <a href="/title/create"> + Add TV Show </a>
+    <div class="card mb-3 index-category">
+        <h3 class="card-header"> TV Shows </h3>
+        <div class="list-group list-group-flush">
+        {% for tv_show in tv_shows %}
+            <a href="/title/{{ tv_show.title_id }}" class="list-group-item list-group-item-action">{{ tv_show.title }}</a>
+        {% endfor %}
+        </div>
+        <div class="card-body">
+            <a href="/title/create" class="card-link"> + Add TV Show </a>
+        </div>
+    </div>
 
-    <h1> Actors/Actresses </h1>
-    <ol>
-    {% for actor in actors %}
-        <li><a href="/name/{{ actor.name_id }}">{{ actor.name }}</a></li>
-    {% endfor %}
-    </ol>
-    <a href="/name/create"> + Add Actor/Actress </a>
+    <div class="card mb-3 index-category">
+        <h3 class="card-header"> Actors/Actresses </h3>
+        <div class="list-group list-group-flush">
+        {% for actor in actors %}
+            <a href="/name/{{ actor.name_id }}" class="list-group-item list-group-item-action">{{ actor.name }}</a>
+        {% endfor %}
+        </div>
+        <div class="card-body">
+            <a href="/name/create" class="card-link"> + Add Actor/Actress </a>
+        </div>
+    </div>
 {% endblock %}

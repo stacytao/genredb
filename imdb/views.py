@@ -17,7 +17,8 @@ def index():
 @bp.route("/title/<item_id>")
 def profile_tv_show(item_id):
     query = TvShow.query.filter_by(title_id=item_id).first_or_404()
-    return render_template("title/profile.html", profile=query)
+    formatted_genres = ", ".join([genre.genre_name for genre in query.genres])
+    return render_template("title/profile.html", profile=query, genres=formatted_genres)
 
 
 @bp.route("/title/create", methods=["POST", "GET"])
@@ -25,7 +26,8 @@ def create_tv_show():
     if request.method == "POST":
         title = request.form["title"]
         cast = request.form["cast"].split(", ")
-        item_id = util.add_to_tv_show_table(title, cast)
+        genres = request.form["genres"].split(", ")
+        item_id = util.add_to_tv_show_table(title, cast, genres)
         return redirect(url_for("views.profile_tv_show", item_id=item_id))
 
     return render_template("/title/create.html")
@@ -36,12 +38,14 @@ def edit_tv_show(item_id):
     if request.method == "POST":
         title = request.form["title"]
         cast = request.form["cast"].split(", ")
-        util.save_to_tv_show_table(item_id, title, cast)
+        genres = request.form["genres"].split(", ")
+        util.save_to_tv_show_table(item_id, title, cast, genres)
         return redirect(url_for("views.profile_tv_show", item_id=item_id))
 
     query = TvShow.query.filter_by(title_id=item_id).first_or_404()
     formatted_cast = ", ".join([actor.name for actor in query.cast])
-    return render_template("title/edit.html", profile=query, cast=formatted_cast)
+    formatted_genres = ", ".join([genre.genre_name for genre in query.genres])
+    return render_template("title/edit.html", profile=query, cast=formatted_cast, genres=formatted_genres)
 
 
 @bp.route("/title/<item_id>/delete", methods=["POST", "GET"])

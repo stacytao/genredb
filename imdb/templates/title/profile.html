@@ -2,6 +2,9 @@
 
 {% block identifier %}{{ profile.title }}{% endblock %}
 
+
+{% block details %}<p>Genres: {{genres}}</p>{% endblock %}
+
 {% block collection_type %}Cast{% endblock %}
 {% block collection %}
     {% for actor in profile.cast %}
