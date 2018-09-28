@@ -1,15 +1,14 @@
 import os
 
 from flask import Flask
-# from flask.ext.scss import Scss
 from .model import db
 from .views import bp
+from .util import init_db
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    # Scss(app, static_dir='static', asset_dir='assets')
     app.config.from_mapping(
         SECRET_KEY='dev',
         # DATABASE=os.path.join(app.instance_path, 'imdb.sqlite'),
@@ -30,6 +29,10 @@ def create_app(test_config=None):
 
     app.register_blueprint(bp)
     db.init_app(app)
-    db.create_all()
+    try:
+        init_db()
+    except:
+        db.session.rollback()
+        raise
 
     return app

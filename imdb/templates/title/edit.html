@@ -1,8 +1,8 @@
 {% extends "profile-form.html" %}
 
 {% block profile_action %}Edit{% endblock %}
-{% block profile_name %}{{ profile.title }}{% endblock %}
-{% block profile_type %}TV Show{% endblock %}
+{% block profile_name %}{{ profile.title }} ({{ profile.year }}){% endblock %}
+{% block profile_type %}Movie{% endblock %}
 
 {% block delete_profile %}
     <a href="/title/{{ profile.title_id }}/delete" class="btn btn-outline-danger profile-delete">Delete Profile </a>
@@ -11,6 +11,11 @@
 {% block form_content %}
     <label for="title">Title</label>
     <input type="text" class="form-control" name="title" value="{{ profile.title }}" id="title" required>
+
+    <br>
+
+    <label for="year">Year</label>
+    <input type="text" class="form-control" name="year" value="{{ profile.year }}" id="year" required>
 
     <br>
 

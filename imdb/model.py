@@ -8,33 +8,20 @@ db = SQLAlchemy(app)
 casts = db.Table(
     'casts',
     db.Column('name_id', db.Integer, db.ForeignKey('actor.name_id')),
-    db.Column('title_id', db.Integer, db.ForeignKey('tv_show.title_id'))
+    db.Column('title_id', db.Integer, db.ForeignKey('movie.title_id'))
 )
 
 titles = db.Table(
     'titles',
-    db.Column('title_id', db.Integer, db.ForeignKey('tv_show.title_id')),
+    db.Column('title_id', db.Integer, db.ForeignKey('movie.title_id')),
     db.Column('genre_id', db.Integer, db.ForeignKey('genre.genre_id'))
 )
 
 
-class Actor(db.Model):
-    name_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-
-    filmography = db.relationship(
-        'TvShow',
-        secondary=casts,
-        backref=db.backref('cast', lazy='dynamic')
-    )
-
-    def __repr__(self):
-        return '<Actor %r>' % self.name
-
-
-class TvShow(db.Model):
-    title_id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), nullable=False)
+class Movie(db.Model):
+    title_id = db.Column(db.Integer, primary_key=True, unique=True)
+    title = db.Column(db.Unicode(80), nullable=False)
+    year = db.Column(db.Integer, nullable=False)
 
     genres = db.relationship(
         'Genre',
@@ -42,13 +29,50 @@ class TvShow(db.Model):
         backref=db.backref('titles', lazy='dynamic')
     )
 
+    def __init__(self, title, year):
+        self.title = title
+        self.year = year
+
     def __repr__(self):
-        return '<TvShow %r>' % self.title
+        return '<Movie %r (%r)>' % self.title, self.year
+
+
+class Actor(db.Model):
+    name_id = db.Column(db.Integer, primary_key=True, unique=True)
+    name = db.Column(db.Unicode(80), nullable=False)
+
+    filmography = db.relationship(
+        'Movie',
+        secondary=casts,
+        backref=db.backref('cast', lazy='dynamic')
+    )
+
+    genres = db.relationship(
+        'ActorGenre',
+        backref=db.backref('actor')
+    )
+
+    def __repr__(self):
+        return '<Actor %r>' % self.name
 
 
 class Genre(db.Model):
-    genre_id = db.Column(db.Integer, primary_key=True)
-    genre_name = db.Column(db.String(80), nullable=False)
+    genre_id = db.Column(db.Integer, primary_key=True, unique=True)
+    genre_name = db.Column(db.Unicode(80), nullable=False)
 
     def __repr__(self):
         return '<Genre %r>' % self.genre_name
+
+
+class ActorGenre(db.Model):
+    actor_id = db.Column(db.Integer, db.ForeignKey('actor.name_id'), primary_key=True)
+    genre_id = db.Column(db.Integer, db.ForeignKey('genre.genre_id'), primary_key=True)
+    quantity = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, genre, quantity):
+        self.genre = genre
+        self.quantity = quantity
+    genre = db.relationship(Genre, lazy='joined')
+
+    def __repr__(self):
+        return '<ActorGenre %r in %r = %r>' % self.actor.name, self.genre.genre_name, self.quantity

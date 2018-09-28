@@ -1,11 +1,16 @@
 {% extends "profile-form.html" %}
 
 {% block profile_action %}Create{% endblock %}
-{% block profile_type %}TV Show{% endblock %}
+{% block profile_type %}Movie{% endblock %}
     
 {% block form_content %}
     <label for="title">Title</label>
     <input type="text" class="form-control" name="title" id="title" required>
+    
+    <br>
+
+    <label for="year">Year</label>
+    <input type="text" class="form-control" name="year" id="year" required>
     
     <br>
     

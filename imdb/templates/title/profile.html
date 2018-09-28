@@ -1,6 +1,6 @@
 {% extends "profile.html" %}
 
-{% block identifier %}{{ profile.title }}{% endblock %}
+{% block identifier %}{{ profile.title }} ({{ profile.year }}){% endblock %}
 
 
 {% block details %}<p>Genres: {{genres}}</p>{% endblock %}

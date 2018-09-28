@@ -6,51 +6,53 @@ bp = Blueprint("views", __name__)
 
 @bp.route("/")
 def index():
-    tv_shows = TvShow.query.order_by(TvShow.title).all()
+    movies = Movie.query.order_by(Movie.title).all()
     actors = Actor.query.order_by(Actor.name).all()
-    return render_template("home/index.html", tv_shows=tv_shows, actors=actors)
+    return render_template("home/index.html", movies=movies, actors=actors)
 
 
 ###########
-# TV SHOW #
+#  MOVIE  #
 ###########
 @bp.route("/title/<item_id>")
-def profile_tv_show(item_id):
-    query = TvShow.query.filter_by(title_id=item_id).first_or_404()
+def profile_movie(item_id):
+    query = Movie.query.filter_by(title_id=item_id).first_or_404()
     formatted_genres = ", ".join([genre.genre_name for genre in query.genres])
     return render_template("title/profile.html", profile=query, genres=formatted_genres)
 
 
 @bp.route("/title/create", methods=["POST", "GET"])
-def create_tv_show():
+def create_movie():
     if request.method == "POST":
         title = request.form["title"]
+        year = request.form["year"]
         cast = request.form["cast"].split(", ")
         genres = request.form["genres"].split(", ")
-        item_id = util.add_to_tv_show_table(title, cast, genres)
-        return redirect(url_for("views.profile_tv_show", item_id=item_id))
+        item_id = util.add_to_movie_table(title, year, cast, genres)
+        return redirect(url_for("views.profile_movie", item_id=item_id))
 
     return render_template("/title/create.html")
 
 
 @bp.route("/title/<item_id>/edit", methods=["POST", "GET"])
-def edit_tv_show(item_id):
+def edit_movie(item_id):
     if request.method == "POST":
         title = request.form["title"]
+        year = request.form["year"]
         cast = request.form["cast"].split(", ")
         genres = request.form["genres"].split(", ")
-        util.save_to_tv_show_table(item_id, title, cast, genres)
-        return redirect(url_for("views.profile_tv_show", item_id=item_id))
+        util.save_to_movie_table(item_id, title, year, cast, genres)
+        return redirect(url_for("views.profile_movie", item_id=item_id))
 
-    query = TvShow.query.filter_by(title_id=item_id).first_or_404()
+    query = Movie.query.filter_by(title_id=item_id).first_or_404()
     formatted_cast = ", ".join([actor.name for actor in query.cast])
     formatted_genres = ", ".join([genre.genre_name for genre in query.genres])
     return render_template("title/edit.html", profile=query, cast=formatted_cast, genres=formatted_genres)
 
 
 @bp.route("/title/<item_id>/delete", methods=["POST", "GET"])
-def delete_tv_show(item_id):
-    util.remove_from_tv_show_table(item_id)
+def delete_movie(item_id):
+    util.remove_from_movie_table(item_id)
     return redirect(url_for("views.index"))
 
 
@@ -60,7 +62,8 @@ def delete_tv_show(item_id):
 @bp.route("/name/<item_id>")
 def profile_actor(item_id):
     query = Actor.query.filter_by(name_id=item_id).first_or_404()
-    return render_template("name/profile.html", profile=query)
+    genre = util.get_actor_genre(query.genres)
+    return render_template("name/profile.html", profile=query, genre=genre)
 
 
 @bp.route("/name/create", methods=["POST", "GET"])
@@ -83,7 +86,7 @@ def edit_actor(item_id):
         return redirect(url_for("views.profile_actor", item_id=item_id))
 
     query = Actor.query.filter_by(name_id=item_id).first_or_404()
-    formatted_filmography = ", ".join([tv_show.title for tv_show in query.filmography])
+    formatted_filmography = ", ".join([movie.title for movie in query.filmography])
     return render_template("name/edit.html", profile=query, filmography=formatted_filmography)
 
 

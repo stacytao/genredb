@@ -2,10 +2,12 @@
 
 {% block identifier %}{{ profile.name }}{% endblock %}
 
+{% block details %}<p>Most Popular Genres: {{genre}}</p>{% endblock %}
+
 {% block collection_type %}Filmography{% endblock %}
 {% block collection %}
-    {% for tv_show in profile.filmography %}
-        <li><a href="/title/{{ tv_show.title_id }}">{{ tv_show.title }}</a>
+    {% for movie in profile.filmography %}
+        <li><a href="/title/{{ movie.title_id }}">{{ movie.title }}</a>
     {% endfor %}
 {% endblock %}
 

@@ -4,8 +4,9 @@
 
 {% block content %}
     <h1> {{ self.identifier() }} </h1>
-    <h2>{% block collection_type %}{% endblock %}:</h2>
     {% block details %}{% endblock %}
+    
+    <h2>{% block collection_type %}{% endblock %}:</h2>
     <ol>
         {% block collection %}{% endblock %}
     </ol>
