@@ -1,0 +1,36 @@
+body {
+    background: 
+    -webkit-linear-gradient(bottom, rgb(69, 130, 236, 0.8), rgb(69, 130, 236, 1)),url("https://images.unsplash.com/photo-1538151790645-80dd86cda1ce?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b880deb27b2235dfa0eb82d600490f2&auto=format&fit=crop&w=1334&q=80");
+    background: 
+    -o-linear-gradient(bottom, rgb(69, 130, 236, 0.8), rgb(69, 130, 236, 1)),url("https://images.unsplash.com/photo-1538151790645-80dd86cda1ce?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b880deb27b2235dfa0eb82d600490f2&auto=format&fit=crop&w=1334&q=80");
+    background: 
+    linear-gradient(to top, rgb(69, 130, 236, 0.8), rgb(69, 130, 236, 1)),url("https://images.unsplash.com/photo-1538151790645-80dd86cda1ce?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=4b880deb27b2235dfa0eb82d600490f2&auto=format&fit=crop&w=1334&q=80");
+}
+
+.navbar {
+    background-color: transparent !important;
+}
+
+.content {
+    padding-top: 30px;
+}
+
+h1 {
+    color: #fff;
+}
+
+#autocomplete {
+    min-width: 50vw;
+}
+
+form {
+    padding: 20px 0;
+}
+
+#search-form {
+    flex-wrap: nowrap;
+}
+
+input.ui-autocomplete-input {
+    margin-right: 8px !important;
+}

@@ -39,3 +39,15 @@ html {
 #donutChart {
     width: 100% !important;
 }
+
+button.btn-secondary {
+    background-color: rgba(255,255,255,0.6);
+    border-color: transparent;
+}
+
+button.btn-secondary:hover,
+button.btn-secondary:focus,
+button.btn-secondary:active {
+    background-color: rgba(255,255,255,1);
+    border-color: rgba(255,255,255,1);
+}
