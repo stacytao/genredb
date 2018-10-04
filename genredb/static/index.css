@@ -31,6 +31,15 @@ form {
     flex-wrap: nowrap;
 }
 
-input.ui-autocomplete-input {
+.ui-autocomplete-input {
     margin-right: 8px !important;
+}
+
+.footer-credits {
+    background-color: transparent;
+    color: rgba(255,255,255,0.6) !important;
+}
+
+.footer-credits a {
+    color: #f5f5f5;
 }
