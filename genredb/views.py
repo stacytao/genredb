@@ -15,7 +15,6 @@ def index():
 
 @bp.route("/autocomplete", methods=["GET"])
 def autocomplete():
-    print("autocomplete called")
     autocomplete = [movie.title for movie in Movie.query.all()]
     autocomplete += [actor.name for actor in Actor.query.all()]
     return jsonify(json_list=autocomplete)
@@ -73,7 +72,15 @@ def delete_movie(item_id):
 def profile_actor(item_id):
     query = Actor.query.filter_by(name_id=item_id).first_or_404()
     genre = util.get_actor_genre(query.genres)
-    return render_template("name/profile.html", profile=query, genre=genre)
+
+    all_genres = []
+    all_quantities = []
+    for actor_genre in query.genres:
+        all_genres.append(str(actor_genre.genre.genre_name))
+        all_quantities.append(actor_genre.quantity)
+
+    genre_data = str({"genres": all_genres, "quantities": all_quantities}).replace("'", "\"")
+    return render_template("name/profile.html", profile=query, genre=genre, chart_data=genre_data)
 
 
 @bp.route("/name/create", methods=["POST", "GET"])

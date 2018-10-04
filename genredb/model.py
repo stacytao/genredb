@@ -34,7 +34,7 @@ class Movie(db.Model):
         self.year = year
 
     def __repr__(self):
-        return '<Movie %r (%r)>' % self.title, self.year
+        return '<Movie {} ({})>'.format(self.title, self.year)
 
 
 class Actor(db.Model):
@@ -53,7 +53,7 @@ class Actor(db.Model):
     )
 
     def __repr__(self):
-        return '<Actor %r>' % self.name
+        return '<Actor {}>'.format(self.name)
 
 
 class Genre(db.Model):
@@ -61,7 +61,7 @@ class Genre(db.Model):
     genre_name = db.Column(db.Unicode(80), nullable=False)
 
     def __repr__(self):
-        return '<Genre %r>' % self.genre_name
+        return '<Genre {}>'.format(self.genre_name)
 
 
 class ActorGenre(db.Model):
@@ -75,4 +75,4 @@ class ActorGenre(db.Model):
     genre = db.relationship(Genre, lazy='joined')
 
     def __repr__(self):
-        return '<ActorGenre %r in %r = %r>' % self.actor.name, self.genre.genre_name, self.quantity
+        return '<ActorGenre {} in {} = {}>'.format(self.actor.name, self.genre.genre_name, self.quantity)

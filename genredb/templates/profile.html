@@ -1,14 +1,33 @@
 {% extends "home/layout.html" %}
 
+{% block scripts %}
+    {{ super() }}
+{% endblock %}
+
 {% block title %}{% block identifier %}{% endblock %}{% endblock %}
 
 {% block content %}
-    <h1> {{ self.identifier() }} </h1>
-    {% block details %}{% endblock %}
-    
-    <h2>{% block collection_type %}{% endblock %}:</h2>
-    <ol>
-        {% block collection %}{% endblock %}
-    </ol>
-    {% block edit_profile %}{% endblock %}
+    <div class="row">
+        <div class="col">
+            <h1> {{ self.identifier() }} </h1>
+            {% block edit_profile %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {% block details %}{% endblock %}
+            {% block chart %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>{% block collection_type %}{% endblock %}:</h2>
+            <ol>
+                {% block collection %}{% endblock %}
+            </ol>
+        </div>
+    </div>
 {% endblock %}

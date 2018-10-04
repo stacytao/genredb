@@ -1,8 +1,14 @@
 {% extends "profile.html" %}
 
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+    <script type="text/javascript" src="../../static/donut-chart.js" defer></script>
+{% endblock %}
+
 {% block identifier %}{{ profile.name }}{% endblock %}
 
-{% block details %}<p>Most Popular Genres: {{genre}}</p>{% endblock %}
+{% block details %}<h2>Most Popular Genres: {{genre}}</h2>{% endblock %}
 
 {% block collection_type %}Filmography{% endblock %}
 {% block collection %}
@@ -13,4 +19,8 @@
 
 {% block edit_profile %}
     <a href="/name/{{ profile.name_id }}/edit"> Edit Info </a>
+{% endblock %}
+
+{% block chart %}
+    <canvas id="donutChart" data-value="{{ chart_data }}"></canvas>
 {% endblock %}

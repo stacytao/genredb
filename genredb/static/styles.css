@@ -1,11 +1,16 @@
 html {
     position: relative;
     min-height: 100%;
-    padding-bottom: 60px;
+    padding-bottom: 30px;
+}
+
+*:hover {
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
 .content {
-    margin: 2vw 5vw;
+    margin: 4vw auto;
+    max-width: 700px;
 }
 
 .index-category {
@@ -27,6 +32,10 @@ html {
     background-color: #f5f5f5;
 }
 
-*:hover {
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+.row {
+    margin-bottom: 30px;
+}
+
+#donutChart {
+    width: 100% !important;
 }
