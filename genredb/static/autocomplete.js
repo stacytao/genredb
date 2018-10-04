@@ -9,16 +9,12 @@ $( function() {
         input.autocomplete({
             source: data.json_list,
             minLength: 4,
-            select: function(event, ui) {
-                input.data('value', ui.item.value);
-                query = input.data('value');
-            }
         });
     });
 } );
 
 searchForm.submit(function(event) {
     event.preventDefault();
-
+    query = input.val();
     window.location.href = $SCRIPT_ROOT + '/search/' + query;
 });
