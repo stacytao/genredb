@@ -15,9 +15,16 @@ def index():
 
 @bp.route("/autocomplete", methods=["GET"])
 def autocomplete():
-    autocomplete = [movie.title for movie in Movie.query.all()]
-    autocomplete += [actor.name for actor in Actor.query.all()]
-    return jsonify(json_list=autocomplete)
+    # autocomplete = [movie.title for movie in Movie.query.all()]
+    # autocomplete += [actor.name for actor in Actor.query.all()]
+    return jsonify(json_list=[actor.name for actor in Actor.query.all()])
+
+
+@bp.route("/search/<item_query>")
+def search_query(item_query):
+    query = Actor.query.filter_by(name=item_query).first_or_404()
+    item_id = query.name_id
+    return redirect(url_for("views.profile_actor", item_id=item_id))
 
 
 ###########
@@ -32,7 +39,7 @@ def profile_movie(item_id):
 
 @bp.route("/title/create", methods=["POST", "GET"])
 def create_movie():
-    if request.method == "POST":
+    if request.method == "POST" and "form-button" in request.form:
         title = request.form["title"]
         year = request.form["year"]
         cast = request.form["cast"].split(", ")
@@ -45,7 +52,7 @@ def create_movie():
 
 @bp.route("/title/<item_id>/edit", methods=["POST", "GET"])
 def edit_movie(item_id):
-    if request.method == "POST":
+    if request.method == "POST" and "form-button" in request.form:
         title = request.form["title"]
         year = request.form["year"]
         cast = request.form["cast"].split(", ")
@@ -59,7 +66,7 @@ def edit_movie(item_id):
     return render_template("title/edit.html", profile=query, cast=formatted_cast, genres=formatted_genres)
 
 
-@bp.route("/title/<item_id>/delete", methods=["POST", "GET"])
+@bp.route("/title/<item_id>/delete")
 def delete_movie(item_id):
     util.remove_from_movie_table(item_id)
     return redirect(url_for("views.index"))
@@ -85,7 +92,7 @@ def profile_actor(item_id):
 
 @bp.route("/name/create", methods=["POST", "GET"])
 def create_actor():
-    if request.method == "POST":
+    if request.method == "POST" and "form-button" in request.form:
         name = request.form["name"]
         filmography = request.form["filmography"].split(", ")
         item_id = util.add_to_actor_table(name, filmography)
@@ -96,7 +103,7 @@ def create_actor():
 
 @bp.route("/name/<item_id>/edit", methods=["POST", "GET"])
 def edit_actor(item_id):
-    if request.method == "POST":
+    if request.method == "POST" and "form-button" in request.form:
         name = request.form["name"]
         filmography = request.form["filmography"].split(", ")
         util.save_to_actor_table(item_id, name, filmography)
@@ -107,7 +114,7 @@ def edit_actor(item_id):
     return render_template("name/edit.html", profile=query, filmography=formatted_filmography)
 
 
-@bp.route("/name/<item_id>/delete", methods=["POST", "GET"])
+@bp.route("/name/<item_id>/delete")
 def delete_actor(item_id):
     util.remove_from_actor_table(item_id)
     return redirect(url_for("views.index"))

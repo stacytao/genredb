@@ -17,13 +17,7 @@ const COLORS = [
 let ctx = $("#donutChart");
 let chartData = ctx.data().value;
 
-console.log(chartData);
-
 let distinctGenreCount = chartData.genres.length;
-
-console.log(chartData.genres);
-console.log(chartData.quantities);
-console.log(chartData.genres.length === chartData.quantities.length);
 
 let donutChart = new Chart(ctx, {
     type: 'doughnut',
