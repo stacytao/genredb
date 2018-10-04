@@ -5,6 +5,16 @@
 {% block content %}
     <div class="row">
         <div class="card mb-3 index-category">
+            <h3 class="card-header"> Genres </h3>
+            <div class="list-group list-group-flush">
+            {% for genre in genres %}
+                <a href="/" class="list-group-item list-group-item-action">{{ genre.genre_name }}</a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+    {#<div class="row"> 
+        <div class="card mb-3 index-category">
             <h3 class="card-header"> Movies </h3>
             <div class="list-group list-group-flush">
             {% for movie in movies %}
@@ -27,5 +37,5 @@
                 <a href="/name/create" class="card-link"> + Add Actor/Actress </a>
             </div>
         </div>
-    </div>
+    </div> #}
 {% endblock %}

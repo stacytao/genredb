@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from . import util
 from .model import *
 bp = Blueprint("views", __name__)
@@ -6,9 +6,19 @@ bp = Blueprint("views", __name__)
 
 @bp.route("/")
 def index():
-    movies = Movie.query.order_by(Movie.title).all()
-    actors = Actor.query.order_by(Actor.name).all()
-    return render_template("home/index.html", movies=movies, actors=actors)
+    genres = Genre.query.order_by(Genre.genre_name).all()
+    # movies = Movie.query.order_by(Movie.title).all()
+    # actors = Actor.query.order_by(Actor.name).all()
+    # return render_template("home/index.html", genres=genres, movies=movies, actors=actors)
+    return render_template("home/index.html", genres=genres)
+
+
+@bp.route("/autocomplete", methods=["GET"])
+def autocomplete():
+    print("autocomplete called")
+    autocomplete = [movie.title for movie in Movie.query.all()]
+    autocomplete += [actor.name for actor in Actor.query.all()]
+    return jsonify(json_list=autocomplete)
 
 
 ###########

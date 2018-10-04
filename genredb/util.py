@@ -4,14 +4,17 @@ from .model import *
 
 def init_db():
     db.create_all()
-    with open('/Users/Stacy/Documents/Columbia/Junior Year/IMDb/imdb/movies.json') as f:
+    with open('/Users/Stacy/Documents/Columbia/Junior Year/IMDb/genredb/movies_2015.json') as f:
         data = json.load(f)
         for movie in data:
-            title = movie["title"]
-            year = movie["year"]
-            cast = movie["cast"].split(", ")
-            genres = movie["genre"].split(", ")
-            add_to_movie_table(title, year, cast, genres)
+            try:
+                title = movie["title"]
+                year = movie["year"]
+                cast = movie["cast"].split(", ")
+                genres = movie["genre"].split(", ")
+                add_to_movie_table(title, year, cast, genres)
+            except:
+                print("Did not add {}".format(movie["title"]))
 
 
 def add_to_actor_genre(actor, genres):
