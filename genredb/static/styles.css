@@ -45,9 +45,9 @@ button.btn-secondary {
     border-color: transparent;
 }
 
-button.btn-secondary:hover,
-button.btn-secondary:focus,
-button.btn-secondary:active {
+#search-button:hover,
+#search-button:focus,
+#search-button:active {
     background-color: rgba(255,255,255,1);
     border-color: rgba(255,255,255,1);
 }
