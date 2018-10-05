@@ -3,19 +3,24 @@ from .model import *
 
 
 def init_db():
-    db.create_all()
-    with open('/Users/Stacy/Documents/Columbia/Junior Year/IMDb/genredb/movies_2000.json') as f:
-        data = json.load(f)
-        for movie in data:
-            try:
-                title = movie["title"]
-                year = movie["year"]
-                cast = clean_cast(movie["cast"].split(", "))
-                genres = clean_genres(movie["genre"].split(", "))
+    try:
+        if 0 == len(Movie.query.filter_by(year=2016).all()):
+            raise Exception
+        print("Database is already populated.")
+    except:
+        db.create_all()
+        with open('/Users/Stacy/Documents/Columbia/Junior Year/IMDb/genredb/movies_2000.json') as f:
+            data = json.load(f)
+            for movie in data:
+                try:
+                    title = movie["title"]
+                    year = movie["year"]
+                    cast = clean_cast(movie["cast"].split(", "))
+                    genres = clean_genres(movie["genre"].split(", "))
 
-                add_to_movie_table(title, year, cast, genres)
-            except:
-                print("Did not add {}".format(movie["title"]))
+                    add_to_movie_table(title, year, cast, genres)
+                except:
+                    print("Did not add {}".format(movie["title"]))
 
 
 def clean_cast(cast):
@@ -192,7 +197,7 @@ def clean_genres(genres):
                 cleaned_genres.add(replacement)
         elif g not in invalid_genres:
             cleaned_genres.add(g)
-    return cleaned_genres
+    return sorted(cleaned_genres)
 
 
 def add_to_actor_genre(actor, genres):

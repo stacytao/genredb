@@ -32,8 +32,10 @@
 {% endblock %}
 
 {% block content %}
-<h1>Know an actor?</h1>
-<h1>Know their genres.</h1>
+    {% block maintext %}
+    <h1>Know an actor?</h1>
+    <h1>Know their genres.</h1>
+    {% endblock %}
 
 <form class="ui-widget form-inline my-2 my-lg-0" id="search-form">
     <input class="form-control mr-sm-2" type="text" placeholder="Search by actor name." id="autocomplete">

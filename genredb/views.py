@@ -13,6 +13,12 @@ def index():
     return render_template("home/index.html", genres=genres)
 
 
+@bp.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('home/404.html'), 404
+
+
 @bp.route("/autocomplete", methods=["GET"])
 def autocomplete():
     # autocomplete = [movie.title for movie in Movie.query.all()]
