@@ -1,17 +1,24 @@
 const COLORS = [
-    '#f0ad4e',
-    '#4582EC',
-    '#02B875',
-    '#ced4da',
-    '#e83e8c',
-    '#17a2b8',
-    '#6f42c1',
-    '#fd7e14',
-    '#868e96',
-    '#20c997',
-    '#6610f2',
-    '#d9534f',
-    '#212529'
+    '#4582EC', // litera blue
+    '#02B875', // litera green
+    '#F0AD4E', // litera yellow
+    '#17A2B8', // litera teal
+    '#D9534F', // litera red
+    '#FFE27A', // light yellow
+    '#60E9FF', // light blue
+    '#F47C27', // orange
+    '#184F87', // dark blue
+    '#A32356', // magenta
+    '#491E70', // purple
+    '#FF608D', // pink
+    '#85FFC7', // mint green
+    '#FCFC62', // lemon yellow
+    '#63D471', // lime green
+    '#AA86E0', // light purple
+    '#187243', // dark green
+    '#7C3F0C', // brown
+    '#6B1139', // dark raspberry
+    '#757F06', // olive
 ]
 
 let ctx = $("#donutChart");
@@ -24,7 +31,7 @@ let donutChart = new Chart(ctx, {
     data: {
         labels: chartData.genres,
         datasets: [{
-            label: '# of Votes',
+            label: 'Number of Movies',
             data: chartData.quantities,
             backgroundColor: COLORS.slice(0, distinctGenreCount)
         }]
