@@ -1,4 +1,5 @@
 from flask import Blueprint, g, jsonify, render_template, request, redirect, session, url_for
+from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import util
 from .model import *
@@ -7,12 +8,21 @@ bp = Blueprint("views", __name__)
 
 @bp.before_app_request
 def load_logged_in_user():
-    user_id = session.get('user_id')
+    user_id = session.get("user_id")
 
     if user_id is None:
         g.user = None
     else:
         g.user = User.query.filter_by(user_id=user_id).first()
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for("views.login_user", next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @bp.route("/")
@@ -103,7 +113,7 @@ def login_user():
         session.clear()
         session["user_id"] = user.user_id
         session["user_name"] = user.user_name
-        return redirect(url_for("views.index"))
+        return redirect(request.args.get("next") or url_for("views.index"))
 
     return render_template("/user/login.html")
 
@@ -125,6 +135,7 @@ def profile_movie(item_id):
 
 
 @bp.route("/title/create", methods=["POST", "GET"])
+@login_required
 def create_movie():
     if request.method == "POST" and "form-button" in request.form:
         title = request.form["title"]
@@ -138,6 +149,7 @@ def create_movie():
 
 
 @bp.route("/title/<item_id>/edit", methods=["POST", "GET"])
+@login_required
 def edit_movie(item_id):
     if request.method == "POST" and "form-button" in request.form:
         title = request.form["title"]
@@ -154,6 +166,7 @@ def edit_movie(item_id):
 
 
 @bp.route("/title/<item_id>/delete")
+@login_required
 def delete_movie(item_id):
     util.remove_from_movie_table(item_id)
     return redirect(url_for("views.index"))
@@ -178,6 +191,7 @@ def profile_actor(item_id):
 
 
 @bp.route("/name/create", methods=["POST", "GET"])
+@login_required
 def create_actor():
     if request.method == "POST" and "form-button" in request.form:
         name = request.form["name"]
@@ -189,6 +203,7 @@ def create_actor():
 
 
 @bp.route("/name/<item_id>/edit", methods=["POST", "GET"])
+@login_required
 def edit_actor(item_id):
     if request.method == "POST" and "form-button" in request.form:
         name = request.form["name"]
@@ -202,6 +217,7 @@ def edit_actor(item_id):
 
 
 @bp.route("/name/<item_id>/delete")
+@login_required
 def delete_actor(item_id):
     util.remove_from_actor_table(item_id)
     return redirect(url_for("views.index"))
