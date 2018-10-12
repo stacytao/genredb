@@ -101,6 +101,7 @@ def clean_genres(genres):
         "Found footage": ["Found Footage"],
         "Historical Drama": ["Historical"],
         "Historical drama": ["Historical"],
+        "Horro": ["Horror"],
         "Horror comedy": ["Horror", "Comedy"],
         "Horror film": ["Horror"],
         "Horror thriller": ["Horror", "Thriller"],

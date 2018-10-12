@@ -26,6 +26,12 @@ let chartData = ctx.data().value;
 
 let distinctGenreCount = chartData.genres.length;
 
+let highlightFilmography = function (e, legendItem) {
+    let genreClass = "." + legendItem.text.replace(" ",".");
+    $("#filmography tbody tr"+genreClass).show();
+    $("#filmography tbody tr").not(genreClass).hide();
+};
+
 let donutChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -38,7 +44,8 @@ let donutChart = new Chart(ctx, {
     },
     options: {
         legend: {
-            position: 'left'
+            position: 'left',
+            onClick: highlightFilmography
         }
     }
 });

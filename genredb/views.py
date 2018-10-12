@@ -1,6 +1,7 @@
 from flask import Blueprint, g, jsonify, render_template, request, redirect, session, url_for
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
+from sortedcontainers import SortedList
 from . import util
 from .model import *
 bp = Blueprint("views", __name__)
@@ -178,16 +179,21 @@ def delete_movie(item_id):
 @bp.route("/name/<item_id>")
 def profile_actor(item_id):
     query = Actor.query.filter_by(name_id=item_id).first_or_404()
-    genre = util.get_actor_genre(query.genres)
+    main_genres = util.get_actor_genre(query.genres)
 
+    genre_by_quantity = SortedList()
     all_genres = []
     all_quantities = []
     for actor_genre in query.genres:
-        all_genres.append(str(actor_genre.genre.genre_name))
-        all_quantities.append(actor_genre.quantity)
+        genre_by_quantity.add((actor_genre.quantity, str(actor_genre.genre.genre_name)))
+
+    while len(genre_by_quantity) > 0:
+        quantity, genre = genre_by_quantity.pop()
+        all_genres.append(genre)
+        all_quantities.append(quantity)
 
     genre_data = str({"genres": all_genres, "quantities": all_quantities}).replace("'", "\"")
-    return render_template("name/profile.html", profile=query, genre=genre, chart_data=genre_data)
+    return render_template("name/profile.html", profile=query, genre=main_genres, chart_data=genre_data)
 
 
 @bp.route("/name/create", methods=["POST", "GET"])
