@@ -9,7 +9,7 @@ html {
 }
 
 .content {
-    margin: 4vw auto;
+    margin: 3vw auto;
     max-width: 700px;
 }
 
@@ -33,7 +33,7 @@ html {
 }
 
 .row {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 #donutChart {
@@ -50,4 +50,16 @@ button.btn-secondary {
 #search-button:active {
     background-color: rgba(255,255,255,1);
     border-color: rgba(255,255,255,1);
+}
+
+h3 {
+    margin-bottom: 15px;
+}
+
+form.user-form {
+    margin-top: 30px;
+}
+
+.navbar-dark .navbar-nav .nav-link.nav-text {
+    color: #ffffff;
 }

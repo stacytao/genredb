@@ -18,6 +18,13 @@ titles = db.Table(
 )
 
 
+class User(db.Model):
+    user_id = db.Column(db.Integer, primary_key=True, unique=True)
+    username = db.Column(db.Unicode(80), unique=True, nullable=False)
+    password = db.Column(db.Unicode(80), nullable=False)
+    user_name = db.Column(db.Unicode(80), nullable=False)
+
+
 class Movie(db.Model):
     title_id = db.Column(db.Integer, primary_key=True, unique=True)
     title = db.Column(db.Unicode(80), nullable=False)

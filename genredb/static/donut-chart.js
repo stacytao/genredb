@@ -35,5 +35,10 @@ let donutChart = new Chart(ctx, {
             data: chartData.quantities,
             backgroundColor: COLORS.slice(0, distinctGenreCount)
         }]
+    },
+    options: {
+        legend: {
+            position: 'left'
+        }
     }
 });

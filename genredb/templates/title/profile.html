@@ -3,11 +3,11 @@
 {% block identifier %}{{ profile.title }} ({{ profile.year }}){% endblock %}
 
 
-{% block details %}<h2>Genres: {{genres}}</h2>{% endblock %}
+{% block details %}<h3>Genres: {{genres}}</h3>{% endblock %}
 
 {% block collection_type %}Cast{% endblock %}
 
-{% block collection %}
+{# {% block collection %}
 <div class="card mb-3">
     <ul class="list-group list-group-flush">
     {% for actor in profile.cast %}
@@ -17,6 +17,25 @@
     {% endfor %}
     </ul>
 </div>
+{% endblock %} #}
+
+{% block collection %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Actor</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for actor in profile.cast %}
+            <tr>
+                <td>
+                    <a href="/name/{{ actor.name_id }}">{{ actor.name }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table> 
 {% endblock %}
 
 {% block edit_profile %}

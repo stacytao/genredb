@@ -227,6 +227,15 @@ def get_actor_genre(actor_genres):
 
 
 ###########
+#  USERS  #
+###########
+def add_to_user_table(username, pwhash, name):
+    user = User(username=username, password=pwhash, user_name=name)
+    db.session.add(user)
+    db.session.commit()
+
+
+###########
 #  MOVIE  #
 ###########
 def add_to_movie_table(item_title, item_year, item_cast, item_genres):

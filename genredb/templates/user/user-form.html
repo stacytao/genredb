@@ -1,0 +1,45 @@
+{% extends "home/layout.html" %}
+
+{% block title %}{% block user_form_title %}{% endblock %}{% endblock %}
+
+{% block content %}
+    <h1> {{ self.user_form_title() }} </h1>
+    <span> {% block user_form_details %}{% endblock %} </span>
+    
+    <form method="post" class="user-form">
+        <fieldset>
+            {% if error is defined and error.username is not none %}
+            <div class="form-group" has-danger>
+                <label for="username">Username</label>
+                <input type="text" class="form-control is-invalid" name="username" id="username" required>
+                <div class="invalid-feedback">{{ error.username }}</div>
+            </div>
+            {% else %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            {% endif %}
+
+            {% if error is defined and error.password is not none %}
+            <div class="form-group" has-danger>
+                <label for="password">Password</label>
+                <input type="password" class="form-control is-invalid" name="password" id="password" required>
+                <div class="invalid-feedback">{{ error.password }}</div>
+            </div>
+            {% else %}
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            {% endif %}
+                
+            {% block additional_fields %}
+            {% endblock %}
+
+            {% block submit %}
+            {% endblock %}
+        </fieldset>
+    </form>
+
+{% endblock %}

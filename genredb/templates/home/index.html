@@ -27,6 +27,24 @@
                 <a class="nav-link" href="/name/create">Add Actor/Actress</a>
             </li>
         </ul>
+        
+        <ul class="navbar-nav">
+        {% if session.user_name is defined %}
+            <li class="nav-item">
+                <span class="nav-link nav-text">Hi, {{session.user_name}}.</span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+            </li>
+        {% endif %}
+        </ul>
     </div>
 </nav>
 {% endblock %}

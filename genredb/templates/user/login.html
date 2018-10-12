@@ -1,0 +1,12 @@
+{% extends "user/user-form.html" %}
+
+{% block user_form_title %}Login{% endblock %}
+
+{% block user_form_details %}
+    Don't have an account?
+    <a href="/register">Register</a>.
+{% endblock %}
+
+{% block submit %}
+    <input type="submit" name="form-button" value="Login" class="btn btn-primary">
+{% endblock %}

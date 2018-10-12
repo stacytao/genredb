@@ -1,7 +1,18 @@
-from flask import Blueprint, jsonify, render_template, request, redirect, url_for
+from flask import Blueprint, g, jsonify, render_template, request, redirect, session, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 from . import util
 from .model import *
 bp = Blueprint("views", __name__)
+
+
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = User.query.filter_by(user_id=user_id).first()
 
 
 @bp.route("/")
@@ -31,6 +42,76 @@ def search_query(item_query):
     query = Actor.query.filter_by(name=item_query).first_or_404()
     item_id = query.name_id
     return redirect(url_for("views.profile_actor", item_id=item_id))
+
+
+###########
+#  USERS  #
+###########
+@bp.route("/register", methods=["POST", "GET"])
+def register_user():
+    registration_error = False
+    errors = {
+        "username": None,
+        "password": None
+    }
+
+    if request.method == "POST" and "form-button" in request.form:
+        username = request.form["username"]
+        password = request.form["password"]
+        name = request.form["name"]
+
+        user_exists = User.query.filter_by(username=username).count() > 0
+        if user_exists is True:
+            registration_error = True
+            errors["username"] = "Username already exists. Please choose another one."
+
+        if registration_error:
+            return render_template("/user/register.html", error=errors)
+
+        util.add_to_user_table(username, generate_password_hash(password), name)
+        return redirect(url_for("views.login_user"))
+
+    return render_template("/user/register.html")
+
+
+@bp.route("/login", methods=["POST", "GET"])
+def login_user():
+    login_error = False
+    errors = {
+        "username": None,
+        "password": "Hello"
+    }
+
+    if request.method == "POST" and "form-button" in request.form:
+        username = request.form["username"]
+        password = request.form["password"]
+
+        users = User.query.filter_by(username=username)
+        user = None
+        if users.count() == 0:
+            login_error = True
+            errors["username"] = "Username doesn't exist. Please check your spelling."
+        else:
+            user = users.first()
+            if not check_password_hash(user.password, password):
+                login_error = True
+                errors["password"] = "Incorrect password. Please try again."
+
+        if login_error:
+            return render_template("/user/login.html", error=errors)
+
+        session.clear()
+        session["user_id"] = user.user_id
+        session["user_name"] = user.user_name
+        return redirect(url_for("views.index"))
+
+    return render_template("/user/login.html")
+
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('views.index'))
 
 
 ###########
