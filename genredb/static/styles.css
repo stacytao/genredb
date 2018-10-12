@@ -63,3 +63,9 @@ form.user-form {
 .navbar-dark .navbar-nav .nav-link.nav-text {
     color: #ffffff;
 }
+
+#showAll {
+    padding: 0;
+    margin-top: -35px;
+    visibility: hidden;
+}

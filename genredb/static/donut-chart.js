@@ -28,9 +28,15 @@ let distinctGenreCount = chartData.genres.length;
 
 let highlightFilmography = function (e, legendItem) {
     let genreClass = "." + legendItem.text.replace(" ",".");
+    $("#showAll").css('visibility', 'visible');
     $("#filmography tbody tr"+genreClass).show();
     $("#filmography tbody tr").not(genreClass).hide();
 };
+
+$("#showAll").click(function(){
+    $("#showAll").css('visibility', 'hidden');
+    $("#filmography tbody tr").show();
+}); 
 
 let donutChart = new Chart(ctx, {
     type: 'doughnut',
